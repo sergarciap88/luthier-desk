@@ -1,43 +1,75 @@
-export default function StatsCards({ guitarras }) {
-    // Calculamos el stock total sumando el campo 'stock' de cada guitarra
-    const totalStock = guitarras.reduce((acc, guitarra) => acc + (guitarra.stock || 0), 0);
-    
-    // Simulamos el total de productos únicos (12 en tu caso)
-    const totalModelos = guitarras.length;
+import React from 'react';
 
-    // Supongamos un valor estimado de inventario (precio * stock)
-    const valorInventario = guitarras.reduce((acc, guitarra) => acc + ((guitarra.price || 0) * (guitarra.stock || 0)), 0);
+export default function StatsCards({ guitarras = [] }) {
+  // Cálculos dinámicos basados en tus datos de guitarras
+  const totalModelos = guitarras.length;
+  
+  const totalStock = guitarras.reduce((acc, curr) => acc + (Number(curr.stock) || 0), 0);
+  
+  const valorInventario = guitarras.reduce((acc, curr) => {
+    const precio = Number(curr.price) || 0; 
+    const stock = Number(curr.stock) || 0;
+    return acc + (precio * stock);
+  }, 0);
 
-    return (
-        <div className="row g-4 mb-5">
-            {/* Tarjeta 1: Modelos Activos */}
-            <div className="col-12 col-md-4">
-                <div className="p-4 rounded-4" style={{ backgroundColor: '#1a1a1a', border: '1px solid #2d2d2d' }}>
-                    <span className="text-uppercase fw-semibold text-secondary small" style={{ letterSpacing: '0.5px' }}>Guitar Models</span>
-                    <h3 className="display-6 fw-bold m-0 mt-1 text-white">{totalModelos}</h3>
-                    <span className="text-success small fw-medium">● Live in store</span>
-                </div>
-            </div>
+  // Formateador de moneda interna
+  const formatearMoneda = (valor) => {
+    return new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD',
+      minimumFractionDigits: 2
+    }).format(valor);
+  };
 
-            {/* Tarjeta 2: Stock Total */}
-            <div className="col-12 col-md-4">
-                <div className="p-4 rounded-4" style={{ backgroundColor: '#1a1a1a', border: '1px solid #2d2d2d' }}>
-                    <span className="text-uppercase fw-semibold text-secondary small" style={{ letterSpacing: '0.5px' }}>Total Stock Units</span>
-                    <h3 className="display-6 fw-bold m-0 mt-1" style={{ color: '#e99401' }}>{totalStock}</h3>
-                    <span className="text-secondary small">Items in warehouse</span>
-                </div>
-            </div>
-
-            {/* Tarjeta 3: Valor del Inventario */}
-            <div className="col-12 col-md-4">
-                <div className="p-4 rounded-4" style={{ backgroundColor: '#1a1a1a', border: '1px solid #2d2d2d' }}>
-                    <span className="text-uppercase fw-semibold text-secondary small" style={{ letterSpacing: '0.5px' }}>Inventory Value</span>
-                    <h3 className="display-6 fw-bold m-0 mt-1 text-white">
-                        ${valorInventario.toLocaleString('en-US', { minimumFractionDigits: 2 })}
-                    </h3>
-                    <span className="text-secondary small">USD Estimated</span>
-                </div>
-            </div>
+  return (
+    <div className="row g-4 mb-4 global-font-luthier">
+      
+      {/* 1. CARD: MODELOS DE GUITARRAS */}
+      <div className="col-12 col-md-4">
+        <div className="p-4 h-100 glass-metric-card">
+          <div className="text-uppercase tracking-widest fw-bold opacity-50 mb-2 metric-card-title">
+            Guitar Models
+          </div>
+          <div className="d-flex align-items-baseline gap-2">
+            <span className="fs-1 fw-bold tracking-tight text-white">{totalModelos}</span>
+          </div>
+          <div className="d-flex align-items-center gap-1.5 mt-2 text-success-luthier">
+            <span className="dot-indicator-success"></span>
+            <span>Live in store</span>
+          </div>
         </div>
-    );
+      </div>
+
+      {/* 2. CARD: STOCK TOTAL */}
+      <div className="col-12 col-md-4">
+        <div className="p-4 h-100 glass-metric-card">
+          <div className="text-uppercase tracking-widest fw-bold opacity-50 mb-2 metric-card-title">
+            Total Stock Units
+          </div>
+          <div className="d-flex align-items-baseline gap-2">
+            <span className="fs-1 fw-bold tracking-tight" style={{ color: '#e99401' }}>{totalStock}</span>
+          </div>
+          <div className="text-muted mt-2 small-text-luthier">
+            Items in warehouse
+          </div>
+        </div>
+      </div>
+
+      {/* 3. CARD: VALOR TOTAL */}
+      <div className="col-12 col-md-4">
+        <div className="p-4 h-100 glass-metric-card">
+          <div className="text-uppercase tracking-widest fw-bold opacity-50 mb-2 metric-card-title">
+            Inventory Value
+          </div>
+          <div className="d-flex align-items-baseline gap-2">
+            <span className="fs-1 fw-bold tracking-tight text-white">{formatearMoneda(valorInventario)}</span>
+          </div>
+          <div className="text-muted mt-2 small-text-luthier">
+            USD Estimated
+          </div>
+        </div>
+      </div>
+
+    </div>
+  );
 }

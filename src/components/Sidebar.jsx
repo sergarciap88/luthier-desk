@@ -1,20 +1,24 @@
-export default function Sidebar({ currentView, setView }) {
+import { useState } from "react";
+
+export default function Sidebar({ currentView, setView, onLogout }) {
     return (
-        <div className="d-flex flex-column flex-shrink-0 p-3 text-white"
-            style={{ width: '280px', height: '100vh', backgroundColor: '#1a1a1a', borderRight: '1px solid #2d2d2d', position: 'fixed' }}>
+        <div className="d-flex flex-column flex-shrink-0 p-4 text-white sidebar-premium-container">
 
-            <div className="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none px-2 py-3">
-                <span className="fs-4 fw-black text-uppercase" style={{ letterSpacing: '-1px' }}>
+            {/* Identidad Visual Premium */}
+            <div className="d-flex align-items-center mb-4 me-md-auto text-white text-decoration-none px-2 py-2">
+                <h2 className="fw-bold text-uppercase m-0 tracking-tight" style={{ fontSize: '1.5rem', letterSpacing: '-1px' }}>
                     Luthier<span style={{ color: '#e99401' }}>Desk</span>
-                </span>
+                </h2>
             </div>
-            <hr style={{ borderColor: '#2d2d2d' }} />
+            
+            <hr style={{ borderColor: 'rgba(255, 255, 255, 0.05)', margin: '0 0 24px 0' }} />
 
-            <ul className="nav nav-pills flex-column mb-auto gap-2">
+            {/* Menú de Navegación Estilizado */}
+            <ul className="nav nav-pills flex-column mb-auto gap-1.5">
                 <li className="nav-item">
                     <button
                         onClick={() => setView('dashboard')}
-                        className={`nav-link text-start w-100 py-3 px-3 custom-nav-btn ${currentView === 'dashboard' ? 'active-orange' : 'text-white'}`}
+                        className={`nav-link text-start w-100 py-2.5 px-3 custom-nav-btn ${currentView === 'dashboard' ? 'active-luthier-card' : 'text-nav-inactive'}`}
                     >
                         Inicio / Métricas
                     </button>
@@ -22,7 +26,7 @@ export default function Sidebar({ currentView, setView }) {
                 <li>
                     <button
                         onClick={() => setView('inventory')}
-                        className={`nav-link text-start w-100 py-3 px-3 custom-nav-btn ${currentView === 'inventory' ? 'active-orange' : 'text-white'}`}
+                        className={`nav-link text-start w-100 py-2.5 px-3 custom-nav-btn ${currentView === 'inventory' ? 'active-luthier-card' : 'text-nav-inactive'}`}
                     >
                         Inventario Guitarras
                     </button>
@@ -30,7 +34,7 @@ export default function Sidebar({ currentView, setView }) {
                 <li>
                     <button
                         onClick={() => setView('orders')}
-                        className={`nav-link text-start w-100 py-3 px-3 custom-nav-btn ${currentView === 'orders' ? 'active-orange' : 'text-white'}`}
+                        className={`nav-link text-start w-100 py-2.5 px-3 custom-nav-btn ${currentView === 'orders' ? 'active-luthier-card' : 'text-nav-inactive'}`}
                     >
                         Órdenes de Compra
                     </button>
@@ -38,34 +42,29 @@ export default function Sidebar({ currentView, setView }) {
                 <li>
                     <button
                         onClick={() => setView('tickets')}
-                        className={`nav-link text-start w-100 py-3 px-3 custom-nav-btn ${currentView === 'tickets' ? 'active-orange' : 'text-white'}`}
+                        className={`nav-link text-start w-100 py-2.5 px-3 custom-nav-btn ${currentView === 'tickets' ? 'active-luthier-card' : 'text-nav-inactive'}`}
                     >
                         Tickets Soporte
                     </button>
                 </li>
             </ul>
 
-            <hr style={{ borderColor: '#2d2d2d' }} />
-            <div className="px-2 pb-3 text-secondary small">
-                Admin Mode v1.0
+            <hr style={{ borderColor: 'rgba(255, 255, 255, 0.05)', margin: '24px 0' }} />
+
+            {/* Botón de Cerrar Sesión Minimalista */}
+            <div className="px-1 mb-2">
+                <button
+                    onClick={onLogout}
+                    className="btn btn-sm w-100 py-2 rounded-3 fw-bold text-uppercase btn-logout-luthier"
+                    style={{ fontSize: '0.75rem', letterSpacing: '0.5px' }}
+                >
+                    Cerrar Sesión
+                </button>
             </div>
 
-            <style>{`
-                .custom-nav-btn {
-                    background: transparent;
-                    border: none;
-                    transition: all 0.2s ease;
-                }
-                .custom-nav-btn:hover {
-                    background-color: #222222 !important;
-                    color: #e99401 !important;
-                }
-                .active-orange {
-                    background-color: #e99401 !important;
-                    color: #000000 !important;
-                    font-weight: 600;
-                }
-            `}</style>
+            <div className="px-1 text-center text-md-start opacity-25 small" style={{ fontSize: '0.65rem', letterSpacing: '0.5px' }}>
+                ADMIN MODE V1.0
+            </div>
         </div>
     );
 }

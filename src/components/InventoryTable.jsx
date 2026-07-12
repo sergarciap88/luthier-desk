@@ -42,20 +42,20 @@ export default function InventoryTable({ guitarras, onEliminar, onGuardar }) {
     };
 
     return (
-        <div className="table-responsive rounded-4 p-4" style={{ backgroundColor: '#1a1a1a', border: '1px solid #2d2d2d' }}>
+        <div className="table-responsive rounded-4 p-4 inventory-panel">
             <div className="d-flex justify-content-between align-items-center mb-4">
-                <h5 className="fw-bold text-uppercase m-0" style={{ fontSize: '1.1rem', color: '#e99401' }}>
+                <h5 className="fw-bold text-uppercase m-0 header-title-luthier">
                     Live Stock Inventory
                 </h5>
-                <button onClick={handleAddClick} className="btn btn-sm fw-semibold px-3 py-2" style={{ backgroundColor: '#e99401', color: '#000000' }}>
+                <button onClick={handleAddClick} className="btn btn-sm fw-semibold px-3 py-2 btn-premium-center-submit">
                     + Add New Guitar
                 </button>
             </div>
 
-            <table className="table table-dark table-hover align-middle m-0">
+            <table className="table table-hover align-middle m-0">
                 <thead>
-                    <tr className="text-secondary border-bottom" style={{ borderColor: '#2d2d2d' }}>
-                        <th className="py-3 px-3" style={{ width: '80px' }}>Image</th>
+                    <tr className="text-secondary border-bottom">
+                        <th className="py-3 px-3 th-img-col">Image</th>
                         <th className="py-3">Guitar Name</th>
                         <th className="py-3">Price (USD)</th>
                         <th className="py-3">Stock Units</th>
@@ -64,14 +64,12 @@ export default function InventoryTable({ guitarras, onEliminar, onGuardar }) {
                 </thead>
                 <tbody>
                     {guitarras.map((guitarra) => (
-                        <tr key={guitarra.id} className="border-bottom" style={{ borderColor: '#2d2d2d' }}>
+                        <tr key={guitarra.id} className="border-bottom">
                             <td className="py-3 px-3">
                                 <img 
-                                    // Corregimos la ruta: si tu base de datos ya tiene el .jpg no se añade, de lo contrario sí
                                     src={guitarra.image?.includes('.') ? `/img/${guitarra.image}` : `/img/${guitarra.image}.jpg`} 
                                     alt={guitarra.name} 
-                                    className="rounded-3"
-                                    style={{ width: '50px', height: '65px', objectFit: 'contain', backgroundColor: '#1a1a1a' }}
+                                    className="rounded-3 inventory-guitar-thumb"
                                     onError={(e) => { 
                                         e.target.onerror = null; 
                                         e.target.src = 'https://via.placeholder.com/50x65/222222/ffffff?text=🎸';
@@ -81,15 +79,15 @@ export default function InventoryTable({ guitarras, onEliminar, onGuardar }) {
                             <td className="py-3 fw-semibold text-white">{guitarra.name}</td>
                             <td className="py-3 text-secondary">${guitarra.price}</td>
                             <td className="py-3">
-                                <span className={`badge px-2.5 py-1.5 rounded-3 ${guitarra.stock > 0 ? 'bg-dark text-success border border-success' : 'bg-danger text-white'}`} style={{ fontSize: '0.85rem' }}>
+                                <span className={`badge px-2.5 py-1.5 rounded-3 ${guitarra.stock > 0 ? 'bg-success' : 'bg-danger'}`}>
                                     {guitarra.stock || 0} units
                                 </span>
                             </td>
                             <td className="py-3 text-end px-3">
-                                <button onClick={() => handleEditClick(guitarra)} className="btn btn-outline-light btn-sm me-2 fw-medium border-secondary text-secondary">
+                                <button onClick={() => handleEditClick(guitarra)} className="btn btn-sm me-2 btn-action-edit">
                                     Edit
                                 </button>
-                                <button onClick={() => onEliminar(guitarra.id)} className="btn btn-outline-danger btn-sm fw-medium border-danger opacity-75">
+                                <button onClick={() => onEliminar(guitarra.id)} className="btn btn-sm btn-action-delete">
                                     Delete
                                 </button>
                             </td>
@@ -98,41 +96,48 @@ export default function InventoryTable({ guitarras, onEliminar, onGuardar }) {
                 </tbody>
             </table>
 
-            {/* --- MODAL FLOTANTE (FORMULARIO ADD / EDIT) --- */}
+            {/* --- MODAL FLOTANTE (FORMULARIO ADD / EDIT COHERENTE CON BOOTSTRAP) --- */}
             {showModal && (
-                <div className="position-fixed top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center" style={{ backgroundColor: 'rgba(0,0,0,0.7)', zIndex: 1050 }}>
-                    <div className="p-4 rounded-4 w-100" style={{ maxWidth: '500px', backgroundColor: '#1a1a1a', border: '1px solid #2d2d2d', color: '#fff' }}>
-                        <h4 className="fw-bold text-uppercase mb-4" style={{ color: '#e99401' }}>
-                            {editingGuitar ? 'Edit Guitar' : 'Add New Guitar'}
-                        </h4>
-                        <form onSubmit={handleSubmit}>
-                            <div className="mb-3">
-                                <label className="form-label small text-secondary text-uppercase fw-semibold">Guitar Name</label>
-                                <input type="text" className="form-control bg-dark text-white border-secondary" value={formData.name} onChange={(e) => setFormData({...formData, name: e.target.value})} required />
+                <div className="modal fade show d-block" tabIndex="-1" style={{ backgroundColor: 'rgba(0,0,0,0.7)', zIndex: 1050 }}>
+                    <div className="modal-dialog modal-dialog-centered" style={{ maxWidth: '500px' }}>
+                        <div className="modal-content">
+                            <div className="modal-header">
+                                <h4 className="modal-title fw-bold text-uppercase" style={{ color: '#e99401' }}>
+                                    {editingGuitar ? 'Edit Guitar' : 'Add New Guitar'}
+                                </h4>
+                                <button type="button" className="btn-close btn-close-white" onClick={() => setShowModal(false)}></button>
                             </div>
-                            <div className="row mb-3">
-                                <div className="col">
-                                    <label className="form-label small text-secondary text-uppercase fw-semibold">Price (USD)</label>
-                                    <input type="number" className="form-control bg-dark text-white border-secondary" value={formData.price} onChange={(e) => setFormData({...formData, price: e.target.value})} required />
+                            <form onSubmit={handleSubmit}>
+                                <div className="modal-body">
+                                    <div className="mb-3">
+                                        <label className="form-label small text-secondary text-uppercase fw-semibold">Guitar Name</label>
+                                        <input type="text" className="form-control" value={formData.name} onChange={(e) => setFormData({...formData, name: e.target.value})} required />
+                                    </div>
+                                    <div className="row mb-3">
+                                        <div className="col">
+                                            <label className="form-label small text-secondary text-uppercase fw-semibold">Price (USD)</label>
+                                            <input type="number" className="form-control" value={formData.price} onChange={(e) => setFormData({...formData, price: e.target.value})} required />
+                                        </div>
+                                        <div className="col">
+                                            <label className="form-label small text-secondary text-uppercase fw-semibold">Stock</label>
+                                            <input type="number" className="form-control" value={formData.stock} onChange={(e) => setFormData({...formData, stock: e.target.value})} required />
+                                        </div>
+                                    </div>
+                                    <div className="mb-3">
+                                        <label className="form-label small text-secondary text-uppercase fw-semibold">Image File Name</label>
+                                        <input type="text" className="form-control" placeholder="e.g. guitarra_01" value={formData.image} onChange={(e) => setFormData({...formData, image: e.target.value})} required />
+                                    </div>
+                                    <div className="mb-1">
+                                        <label className="form-label small text-secondary text-uppercase fw-semibold">Description</label>
+                                        <textarea className="form-control" rows="3" value={formData.description} onChange={(e) => setFormData({...formData, description: e.target.value})} required></textarea>
+                                    </div>
                                 </div>
-                                <div className="col">
-                                    <label className="form-label small text-secondary text-uppercase fw-semibold">Stock</label>
-                                    <input type="number" className="form-control bg-dark text-white border-secondary" value={formData.stock} onChange={(e) => setFormData({...formData, stock: e.target.value})} required />
+                                <div className="modal-footer">
+                                    <button type="button" onClick={() => setShowModal(false)} className="btn btn-sm btn-outline-secondary px-3">Cancel</button>
+                                    <button type="submit" className="btn btn-sm fw-semibold px-4 btn-premium-center-submit">Save Changes</button>
                                 </div>
-                            </div>
-                            <div className="mb-3">
-                                <label className="form-label small text-secondary text-uppercase fw-semibold">Image File Name</label>
-                                <input type="text" className="form-control bg-dark text-white border-secondary" placeholder="e.g. guitarra_01" value={formData.image} onChange={(e) => setFormData({...formData, image: e.target.value})} required />
-                            </div>
-                            <div className="mb-4">
-                                <label className="form-label small text-secondary text-uppercase fw-semibold">Description</label>
-                                <textarea className="form-control bg-dark text-white border-secondary" rows="3" value={formData.description} onChange={(e) => setFormData({...formData, description: e.target.value})} required></textarea>
-                            </div>
-                            <div className="d-flex justify-content-end gap-2">
-                                <button type="button" onClick={() => setShowModal(false)} className="btn btn-sm btn-outline-secondary px-3">Cancel</button>
-                                <button type="submit" className="btn btn-sm fw-semibold px-4" style={{ backgroundColor: '#e99401', color: '#000000' }}>Save Changes</button>
-                            </div>
-                        </form>
+                            </form>
+                        </div>
                     </div>
                 </div>
             )}

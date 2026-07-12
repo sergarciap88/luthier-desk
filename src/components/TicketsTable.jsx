@@ -1,12 +1,14 @@
+import React from 'react';
+
 export default function TicketsTable({ tickets, onResolverTicket }) {
     return (
-        <div className="table-responsive rounded-4 p-4" style={{ backgroundColor: '#1a1a1a', border: '1px solid #2d2d2d' }}>
-            <h5 className="fw-bold text-uppercase mb-4" style={{ fontSize: '1.1rem', color: '#e99401' }}>
+        <div className="table-responsive rounded-4 p-4 tickets-panel">
+            <h5 className="fw-bold text-uppercase mb-4 header-title-luthier">
                 Casos de Soporte Técnico
             </h5>
-            <table className="table table-dark table-hover align-middle m-0">
+            <table className="table table-hover align-middle m-0">
                 <thead>
-                    <tr className="text-secondary border-bottom" style={{ borderColor: '#2d2d2d' }}>
+                    <tr className="text-secondary border-bottom">
                         <th className="py-3 px-3">Cliente</th>
                         <th className="py-3">Asunto / Motivo</th>
                         <th className="py-3">Mensaje</th>
@@ -16,7 +18,7 @@ export default function TicketsTable({ tickets, onResolverTicket }) {
                 </thead>
                 <tbody>
                     {tickets.map((ticket) => (
-                        <tr key={ticket.id} className="border-bottom" style={{ borderColor: '#2d2d2d' }}>
+                        <tr key={ticket.id} className="border-bottom">
                             <td className="py-3 px-3 fw-semibold text-white">{ticket.cliente}</td>
                             <td className="py-3 text-warning">{ticket.asunto}</td>
                             <td className="py-3 text-secondary small">{ticket.mensaje}</td>
@@ -28,7 +30,7 @@ export default function TicketsTable({ tickets, onResolverTicket }) {
                             <td className="py-3 text-end px-3">
                                 <button 
                                     onClick={() => onResolverTicket(ticket.id)}
-                                    className="btn btn-sm btn-outline-danger border-danger opacity-75"
+                                    className="btn btn-sm btn-action-delete"
                                 >
                                     Cerrar Caso
                                 </button>
