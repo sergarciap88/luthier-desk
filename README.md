@@ -1,16 +1,36 @@
-# React + Vite
+# 🎸 Luthier Desk - Dashboard de Gestión Operativa
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+**Luthier Desk** es un panel de administración interactivo desarrollado en **React** y **Vite** para talleres de luthiería. La aplicación optimiza la gestión diaria permitiendo controlar inventarios, dar seguimiento a órdenes de servicio, emitir tickets de asistencia y visualizar estadísticas de rendimiento técnico desde una interfaz centralizada y segura.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## 🚀 Estructura del Proyecto e Interfaz
 
-## React Compiler
+La aplicación está construida de forma modular basándose en los siguientes componentes principales:
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+*   **🔑 Control de Acceso (`Login.jsx`):** Vista inicial que gestiona la autenticación y el ingreso seguro de los administradores o técnicos del taller.
+*   **📊 Panel Principal de Métricas (`StatsCards.jsx`):** Mapeo de indicadores clave de rendimiento (KPIs), tales como volumen de ingresos, servicios activos y estados de entrega rápida.
+*   **📋 Control de Inventario (`InventoryTable.jsx`):** Tabla interactiva para administrar existencias de insumos, herramientas y guitarras en stock.
+*   **🛠️ Gestión de Reparaciones (`OrdersTable.jsx`):** Trazabilidad y seguimiento del flujo de las órdenes de trabajo activas de los clientes.
+*   **🎫 Emisión de Soporte (`TicketsTable.jsx`):** Organización y atención de tickets asociados a solicitudes específicas, consultas o garantías.
+*   **🧭 Navegación Fluida (`Sidebar.jsx`):** Barra lateral de navegación que conecta dinámicamente las diferentes secciones del sistema de manera intuitiva.
 
-## Expanding the Oxlint configuration
+---
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and Oxlint's TypeScript related rules in your project.
+## 🛠️ Tecnologías Utilizadas
+
+*   **Frontend:** React (componentes `.jsx`), HTML5, CSS3 / Tailwind CSS (estilos globales en `index.css` y de la app en `App.css`).
+*   **Herramienta de Construcción (Bundler):** Vite (configurado en `vite.config.js`).
+*   **Entorno de Configuración:** Variables de entorno seguras gestionadas a través de `.env.local` (para endpoints de API o integraciones).
+*   **Calidad de Código (Linter):** Oxlint (reglas definidas en `.oxlintrc.json`).
+*   **Control de Versiones:** Git & GitHub.
+
+---
+
+## 📦 Instalación y Configuración Local
+
+Sigue estos pasos para levantar el entorno de desarrollo en tu computadora:
+
+1. Clonar el repositorio:
+   ```bash
+   git clone [https://github.com/sergarciap88/luthier-desk.git](https://github.com/sergarciap88/luthier-desk.git)
